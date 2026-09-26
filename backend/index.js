@@ -229,6 +229,20 @@ app.get('/api/user/:userId/dashboard', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+// ==========================================
+// API ৫: ডেমো লগইন (Phone number দিয়ে)
+// ==========================================
+app.post('/api/login', async (req, res) => {
+    const { phone } = req.body;
+    try {
+        const user = await prisma.user.findUnique({ where: { phone } });
+        if (!user) return res.status(404).json({ error: 'User not found' });
+        
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 app.listen(PORT, () => {
     console.log(`🚀 Dhaka Tesla Pool API is running on http://localhost:${PORT}`);
 });
