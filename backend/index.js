@@ -243,6 +243,21 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+// ==========================================
+// API ৬: ড্রাইভারের জন্য অপেক্ষারত (Pending) রিকোয়েস্টগুলো দেখা
+// ==========================================
+app.get('/api/rides/pending', async (req, res) => {
+    try {
+        const pendingRides = await prisma.rideRequest.findMany({
+            where: { status: 'REQUESTED' },
+            include: { passenger: true },
+            orderBy: { createdAt: 'desc' }
+        });
+        res.status(200).json(pendingRides);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 app.listen(PORT, () => {
     console.log(`🚀 Dhaka Tesla Pool API is running on http://localhost:${PORT}`);
 });
