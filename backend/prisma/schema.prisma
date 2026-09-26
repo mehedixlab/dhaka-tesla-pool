@@ -1,0 +1,74 @@
+// backend/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PASSENGER
+  DRIVER
+}
+
+enum PoolStatus {
+  ACTIVE
+  COMPLETED
+}
+
+enum RideStatus {
+  REQUESTED
+  MATCHED
+  DRIVER_ARRIVED
+  STARTED
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  name         String
+  role         Role
+  phone        String        @unique
+  vehicles     Vehicle[]
+  driverPools  Pool[]        @relation("DriverPools")
+  rideRequests RideRequest[]
+  createdAt    DateTime      @default(now())
+}
+
+model Vehicle {
+  id       String @id @default(uuid())
+  driverId String // এখান থেকে @unique সরিয়ে দেওয়া হয়েছে
+  name     String
+  capacity Int
+  driver   User   @relation(fields: [driverId], references: [id])
+  pools    Pool[]
+}
+
+model Pool {
+  id           String        @id @default(uuid())
+  driverId     String
+  vehicleId    String
+  status       PoolStatus    @default(ACTIVE)
+  driver       User          @relation("DriverPools", fields: [driverId], references: [id])
+  vehicle      Vehicle       @relation(fields: [vehicleId], references: [id])
+  rideRequests RideRequest[]
+  createdAt    DateTime      @default(now())
+}
+
+model RideRequest {
+  id             String     @id @default(uuid())
+  passengerId    String
+  poolId         String?    // রিকোয়েস্ট এক্সেপ্ট হলে এটি আপডেট হবে
+  pickupZone     String
+  dropoffZone    String
+  seatsRequested Int        @default(1)
+  fare           Float      @default(0)
+  status         RideStatus @default(REQUESTED)
+  passenger      User       @relation(fields: [passengerId], references: [id])
+  pool           Pool?      @relation(fields: [poolId], references: [id])
+  createdAt      DateTime   @default(now())
+}
