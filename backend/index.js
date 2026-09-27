@@ -96,8 +96,14 @@ app.post('/api/driver/accept-ride', async (req, res) => {
             const vehicle = await tx.vehicle.findUnique({ where: { id: vehicleId } });
             if (!vehicle) throw new Error("Vehicle not found");
 
-            // ৩. বর্তমান পুলে কতগুলো সিট অলরেডি বুক হয়েছে তার হিসাব
-            const currentlyBookedSeats = pool.rideRequests.reduce((sum, req) => sum + req.seatsRequested, 0);
+            // ৩. বর্তমান পুলে কতগুলো সিট অলরেডি বুক হয়েছে তার হিসাব 
+// (যে রাইডগুলো COMPLETED বা CANCELLED হয়ে গেছে, সেগুলোর সিট ফাঁকা হিসেবে ধরতে হবে)
+const currentlyBookedSeats = pool.rideRequests.reduce((sum, req) => {
+    if (req.status === 'COMPLETED' || req.status === 'CANCELLED') {
+        return sum; // এই সিটগুলো ফাঁকা, তাই যোগ হবে না
+    }
+    return sum + req.seatsRequested; // রানিং রাইডগুলোর সিট যোগ হবে
+}, 0);
 
             // ৪. প্যাসেঞ্জারের রিকোয়েস্টটি চেক করা (এটি কি এখনো REQUESTED স্টেটে আছে?)
             const rideReq = await tx.rideRequest.findUnique({ where: { id: rideRequestId } });
