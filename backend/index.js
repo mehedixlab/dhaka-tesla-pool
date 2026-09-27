@@ -12,10 +12,8 @@ const prisma = new PrismaClient();
 app.use(cors());
 app.use(express.json());
 
-// ==========================================
 // PRD Requirement: Fare Model (ভাড়া নির্ধারণ)
 // passengerFare = baseFare + distanceCharge - poolDiscount
-// ==========================================
 const BASE_FARE = 50; // বেস ফেয়ার ৫০ টাকা
 const POOL_DISCOUNT_PER_SEAT = 20; // রাইড শেয়ার (পুল) হলে প্রতি সিটে ২০ টাকা ডিসকাউন্ট
 
@@ -25,9 +23,7 @@ const getDistanceCharge = (pickup, dropoff) => {
     return 100; 
 };
 
-// ==========================================
 // API ১: প্যাসেঞ্জার রাইড রিকোয়েস্ট করবে
-// ==========================================
 app.post('/api/passenger/request-ride', async (req, res) => {
     try {
         const { passengerId, pickupZone, dropoffZone, seatsRequested } = req.body;
@@ -64,9 +60,7 @@ app.post('/api/passenger/request-ride', async (req, res) => {
 
 // সার্ভার চালু করা
 const PORT = process.env.PORT || 5000;
-// ==========================================
 // API ২: ড্রাইভার রাইড এক্সেপ্ট করবে (Concurrency & Locking Handle সহ)
-// ==========================================
 app.post('/api/driver/accept-ride', async (req, res) => {
     const { driverId, vehicleId, rideRequestId } = req.body;
 
@@ -154,9 +148,7 @@ const currentlyBookedSeats = pool.rideRequests.reduce((sum, req) => {
         res.status(400).json({ error: error.message }); 
     }
 });
-// ==========================================
 // API ৩: রাইড বা ট্রিপের স্ট্যাটাস পরিবর্তন (DRIVER_ARRIVED, STARTED, COMPLETED, CANCELLED)
-// ==========================================
 app.put('/api/ride/status', async (req, res) => {
     const { rideRequestId, status } = req.body;
 
@@ -174,7 +166,6 @@ app.put('/api/ride/status', async (req, res) => {
         });
 
         // যদি রাইড কমপ্লিট বা ক্যানসেল হয়, এবং সেই পুলের সব রাইড শেষ হয়ে যায়, তবে পুলটিও কমপ্লিট করা যেতে পারে
-        // (MVP এর জন্য এটি সিম্পল রাখা হলো)
 
         res.status(200).json({
             message: `Ride status updated to ${status}`,
@@ -186,9 +177,7 @@ app.put('/api/ride/status', async (req, res) => {
     }
 });
 
-// ==========================================
 // API ৪: ড্যাশবোর্ডের জন্য ডাটা ফেচ (প্যাসেঞ্জার এবং ড্রাইভার)
-// ==========================================
 
 // ইউজারের প্রোফাইল এবং তার বর্তমান রাইডের তথ্য ফেচ করা
 app.get('/api/user/:userId/dashboard', async (req, res) => {
@@ -235,9 +224,7 @@ app.get('/api/user/:userId/dashboard', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-// ==========================================
 // API ৫: ডেমো লগইন (Phone number দিয়ে)
-// ==========================================
 app.post('/api/login', async (req, res) => {
     const { phone } = req.body;
     try {
@@ -249,9 +236,7 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-// ==========================================
 // API ৬: ড্রাইভারের জন্য অপেক্ষারত (Pending) রিকোয়েস্টগুলো দেখা
-// ==========================================
 app.get('/api/rides/pending', async (req, res) => {
     try {
         const pendingRides = await prisma.rideRequest.findMany({

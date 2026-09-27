@@ -131,9 +131,7 @@ export default function Dashboard() {
           </button>
         </div>
 
-        {/* ========================================================= */}
         {/* PASSENGER VIEW */}
-        {/* ========================================================= */}
         {user.role === "PASSENGER" && (
           <div className="grid md:grid-cols-2 gap-6">
             
@@ -187,9 +185,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* ========================================================= */}
         {/* DRIVER VIEW */}
-        {/* ========================================================= */}
         {user.role === "DRIVER" && (
           <div className="grid lg:grid-cols-2 gap-6">
             
@@ -237,7 +233,6 @@ export default function Dashboard() {
                             </div>
 
                             <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 mt-2 sm:mt-0">
-    {/* w-24 সরিয়ে w-auto দেওয়া হয়েছে যাতে টেক্সট না কাটে */}
     <span className="font-bold text-blue-600 text-xs sm:text-sm w-auto text-right">{req.status}</span>
     
     {/* স্ট্যাটাস আপডেট করার অপশন */}
