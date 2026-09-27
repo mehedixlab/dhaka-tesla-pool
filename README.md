@@ -16,15 +16,17 @@ graph LR
     Client[Next.js Frontend] --> API[Node.js / Express API]
     API --> ORM[Prisma ORM]
     ORM --> DB[(PostgreSQL)]
+```
 
-Entity Relationship Diagram (ERD)
-
+### Entity Relationship Diagram (ERD)
+```mermaid
 erDiagram
     USER ||--o{ VEHICLE : owns
     USER ||--o{ POOL : drives
     USER ||--o{ RIDE_REQUEST : makes
     VEHICLE ||--o{ POOL : assigned_to
     POOL ||--o{ RIDE_REQUEST : includes
+```
 
 🛠️ Tech Stack & Justification
 Frontend: Next.js (React) + Tailwind CSS. Picked for its easy App Router setup, fast rendering, and clean state management for role-based dashboards.
