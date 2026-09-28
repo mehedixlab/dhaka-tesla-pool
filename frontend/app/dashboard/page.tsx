@@ -31,13 +31,13 @@ export default function Dashboard() {
   }, []);
 
   const fetchDashboardData = async (userId: string) => {
-    const res = await fetch(`http://localhost:5000/api/user/${userId}/dashboard`);
+    const res = await fetch(`https://tesla-pool-backend.onrender.com/api/user/${userId}/dashboard`);
     const data = await res.json();
     setDashboardData(data);
   };
 
   const fetchPendingRides = async () => {
-    const res = await fetch("http://localhost:5000/api/rides/pending");
+    const res = await fetch("https://tesla-pool-backend.onrender.com/api/rides/pending");
     const data = await res.json();
     setPendingRides(data);
   };
@@ -45,7 +45,7 @@ export default function Dashboard() {
   // প্যাসেঞ্জার: নতুন রাইড রিকোয়েস্ট করা
   const requestRide = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:5000/api/passenger/request-ride", {
+    const res = await fetch("https://tesla-pool-backend.onrender.com/api/passenger/request-ride", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -69,7 +69,7 @@ export default function Dashboard() {
     if (!dashboardData?.user?.vehicles?.[0]) return alert("No vehicle found!");
     const vehicleId = dashboardData.user.vehicles[0].id;
 
-    const res = await fetch("http://localhost:5000/api/driver/accept-ride", {
+    const res = await fetch("https://tesla-pool-backend.onrender.com/api/driver/accept-ride", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -91,7 +91,7 @@ export default function Dashboard() {
 
   // ড্রাইভার: রাইড স্ট্যাটাস আপডেট করা (Arrived, Start, Complete)
   const updateRideStatus = async (rideRequestId: string, newStatus: string) => {
-    const res = await fetch("http://localhost:5000/api/ride/status", {
+    const res = await fetch("https://tesla-pool-backend.onrender.com/api/ride/status", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
