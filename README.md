@@ -3,7 +3,7 @@
 Share a seat. Split the fare. Survive Dhaka traffic.
 
 **Chief Tesla Engineer:** Md. Mehedi Hasan  
-**Live Demo Video:** [Insert your Loom video link here]
+**Live Demo Video:** [https://drive.google.com/file/d/1KozilbqUMeBK1sS6GogNsbEO55CNopXx/view?usp=sharing]
 
 ## 📌 The Product Problem & Solution
 In Dhaka's rush hour, a 3-seat Tesla (battery-powered rickshaw) often carries a single passenger while others wait. **Dhaka Tesla Pool** is an MVP ride-sharing platform that allows passengers to request rides and drivers to accept them. If multiple passengers share a route, the system intelligently pools them together, enforces seat capacities, and applies a fare discount for everyone in the pool.
