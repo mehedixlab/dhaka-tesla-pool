@@ -39,7 +39,7 @@ ORM: Prisma. Chosen for its type safety, easy migration management, and excellen
 
 🚀 How to Run Locally (Docker)
 1. Clone the repository:
-git clone <your-repo-link>
+git clone <https://github.com/mehedixlab/dhaka-tesla-pool.git>
 cd dhaka-tesla-pool
 
 2. Environment Setup:
@@ -49,7 +49,7 @@ Rename .env.example to .env. (No real secrets are included).
 docker compose up --build
 This command spins up the Postgres DB, runs migrations, seeds demo data (Jashim, Nusrat, Rafiq, Shirin), and starts both the Backend (Port 5000) and Frontend (Port 3000).
 
-4. Access the App: Open http://localhost:3000 in your browser.
+4. Access the App: Open https://dhaka-tesla-pool-wine.vercel.app/ in your browser.
 
 🧑‍💻 Demo Accounts (Seeded)
 Driver: 01700000001 (Jashim, Vehicle: Bullet, Capacity: 3)
@@ -71,7 +71,7 @@ Rejected Suggestion: AI initially suggested using MongoDB, but I rejected it in 
 📈 Bonus: "If Oi Tesla Goes Viral" (Scaling to 1M Users)
 If we scale to 1M passengers and 100k drivers, the current architecture will face database contention and high latency. Here is how I would scale it:
 
-1. Load Balancing & Horizontal Scaling: Deploy multiple Node.js API instances behind an API Gateway/Load Balancer (e.g., NGINX or AWS ALB).
+1. Load Balancing & Horizontal Scaling: Deploy multiple Node.js API instances behind an API Gateway/Load Balancer (NGINX or AWS ALB).
 
 2. Database Replicas: Use PostgreSQL Read-Replicas for fetching dashboards, while keeping the Master DB strictly for writes (booking seats).
 
